@@ -180,3 +180,22 @@ No `psycopg2`, você verá por aí o uso de `with conexao.cursor() as cursor:`.
 *   **O que é:** Interface web local robusta com Query Tool, autocompletar e dashboards.
 *   **Instalação Windows:** Obtido via **Interactive installer by EDB** (Hospedado pela EnterpriseDB, não nos servidores da comunidade). Configura o Postgres como serviço do Windows.
 *   **Suporte de Plataforma (EDB):** Testado em Windows Server 2025/2022 (para Postgres 18) e 2022/2019 (para Postgres 17/16).
+
+
+
+## 20: Tabela Comparativa de Referência Rápida
+
+| Operação | SQLite (`sqlite3`) | PostgreSQL (`psycopg2`) |
+| :--- | :--- | :--- |
+| Instalar driver | Nativo (zero setup) | `pip install psycopg2-binary` |
+| Conectar | `sqlite3.connect("arquivo.db")` | `psycopg2.connect(host, port, database, user, password)` |
+| Auto-incremento | `INTEGER PRIMARY KEY AUTOINCREMENT` | `SERIAL PRIMARY KEY` |
+| Placeholder | `?` | `%s` |
+| Acesso por nome | `conexao.row_factory = sqlite3.Row` | `cursor_factory=RealDictCursor` |
+| Capturar ID inserido | `cursor.lastrowid` | `RETURNING id` + `fetchone()` |
+| Ativar FK | `PRAGMA foreign_keys = ON` | Nativo (sempre ativo) |
+| Múltiplos comandos | `cursor.executescript(...)` | `cursor.execute(...)` (um por vez ou separado por `;`) |
+| Erro de integridade | `sqlite3.IntegrityError` | `psycopg2.IntegrityError` |
+| Rollback após erro | Automático no `with` | Manual: `conexao.rollback()` |
+| Banco em memória | `sqlite3.connect(":memory:")` | Não suportado (requer servidor) |
+| Ferramenta visual | DB Browser for SQLite | pgAdmin 4 / DBeaver |
